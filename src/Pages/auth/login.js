@@ -23,18 +23,25 @@ function LoginForm() {
     setMessage("");
 
     try {
-      const response = await axios.post("https://hackathon-backend-seven-sigma.vercel.app/api/auth/login", formData);
+      // Make sure to update your API endpoint if needed
+      const response = await axios.post(
+        "https://hackathon-backend-six-kappa.vercel.app/api/auth/login",
+        formData
+      );
 
       const token = response.data.token;
       localStorage.setItem("authToken", token);
-      document.cookie = `authToken=${token}; path=/; max-age=${7 * 24 * 60 * 60}`;
+      document.cookie = `authToken=${token}; path=/; max-age=${7 * 24 * 60 * 60}`; // 1 week expiry
 
       setMessage("Login successful! Welcome back.");
-      navigate("/clientform");
+      navigate("/clientform"); // Redirect to your target route after successful login
     } catch (error) {
-      setMessage(
-        error.response?.data?.message || "Something went wrong. Please try again."
-      );
+      // Enhance error message handling for clarity
+      const errorMessage =
+        error.response?.data?.message ||
+        "Something went wrong. Please try again later.";
+      setMessage(errorMessage);
+      console.error("Login error:", error); // Log error for debugging purposes
     } finally {
       setLoading(false);
     }
@@ -66,7 +73,7 @@ function LoginForm() {
               onChange={handleChange}
               required
               placeholder="you@example.com"
-              className="w-full px-4 py-3   border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              className="w-full px-4 py-3 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
             />
           </div>
 
