@@ -26,7 +26,7 @@ const Registrationform = () => {
     setMessage('');
 
     try {
-      const response = await axios.post('https://hackathon-backend-seven-sigma.vercel.app/', formData);
+      const response = await axios.post('https://hackathon-backend-seven-sigma.vercel.app/api/auth/register', formData);
       setMessage('Registration successful!');
     } catch (error) {
       setMessage(error.response?.data?.message || 'Something went wrong. Please try again.');
