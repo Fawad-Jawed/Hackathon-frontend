@@ -22,26 +22,33 @@ function LoginForm() {
     setLoading(true);
     setMessage("");
 
+    console.log("Form Data:", formData); // Log form data to verify
+
     try {
-      // Make sure to update your API endpoint if needed
+      // Sending POST request to backend API
       const response = await axios.post(
         "https://hackathon-backend-six-kappa.vercel.app/api/auth/login",
         formData
       );
 
-      const token = response.data.token;
-      localStorage.setItem("authToken", token);
-      document.cookie = `authToken=${token}; path=/; max-age=${7 * 24 * 60 * 60}`; // 1 week expiry
+      console.log("Response Data:", response.data); // Log response data
 
-      setMessage("Login successful! Welcome back.");
-      navigate("/clientform"); // Redirect to your target route after successful login
+      if (response.data.token) {
+        const token = response.data.token;
+        // Save the token in localStorage and cookies
+        localStorage.setItem("authToken", token);
+        document.cookie = `authToken=${token}; path=/; max-age=${7 * 24 * 60 * 60}`;
+
+        setMessage("Login successful! Welcome back.");
+        navigate("/clientform");
+      }
     } catch (error) {
-      // Enhance error message handling for clarity
-      const errorMessage =
-        error.response?.data?.message ||
-        "Something went wrong. Please try again later.";
-      setMessage(errorMessage);
-      console.error("Login error:", error); // Log error for debugging purposes
+      console.error("Login Error:", error.response || error); // Log error details
+
+      // Display user-friendly message
+      setMessage(
+        error.response?.data?.message || "Something went wrong. Please try again."
+      );
     } finally {
       setLoading(false);
     }
