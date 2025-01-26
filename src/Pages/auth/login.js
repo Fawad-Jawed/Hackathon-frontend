@@ -23,7 +23,7 @@ function LoginForm() {
     setMessage("");
 
     try {
-      const response = await axios.post("https://hackathon-backend-seven-sigma.vercel.app/", formData);
+      const response = await axios.post("https://hackathon-backend-seven-sigma.vercel.app/api/auth/login", formData);
 
       const token = response.data.token;
       localStorage.setItem("authToken", token);
