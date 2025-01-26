@@ -26,7 +26,7 @@ function Clientform() {
 
     try {
       const response = await axios.post(
-        "https://hackathon-backend-seven-sigma.vercel.app/",
+        "https://hackathon-backend-seven-sigma.vercel.app/api/beneficiaries/add",
         formData
       );
 
